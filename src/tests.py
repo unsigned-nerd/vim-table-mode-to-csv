@@ -20,14 +20,26 @@ class MyUnitTest(unittest.TestCase):
       Usage: vtmtc.py [FILE]
     """
 
-    # when a script is called without any argument from a shell,
-    # sys.argv is an empty tuple
+    # calling the script without an argument, shows help message
+
     args = tuple()
 
     stdout_msg = vtmtc._run(args)
 
     expected_stdout_msg = """Usage: vtmtc.py [FILE]\n"""
     self.assertEqual(expected_stdout_msg, stdout_msg)
+
+    # calling the script with an argument, doesn't show help message
+
+    args = ('hello')
+
+    stdout_msg = vtmtc._run(args)
+
+    unexpected_stdout_msg = """Usage: vtmtc.py [FILE]\n"""
+    self.assertIsNotEqual(unexpected_stdout_msg, stdout_msg)
+
+    # calling the script with 2 arguments, doesn't show help message
+    self.fail('Finished the test!')
 
 if __name__ == '__main__':
     unittest.main()
