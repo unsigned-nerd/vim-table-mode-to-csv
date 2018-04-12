@@ -3,20 +3,20 @@
 import sys
 
 def _run(argv):
-  """
-  When calling this script from a command line shell, the top level code
-  passes all the work to this function so that we can write a test
-  easier for command line application.
+    """
+    When calling this script from a command line shell, the top level
+    code passes all the work to this function so that we can write a
+    test easier for command line application.
 
-  This function returns an output string which is to be printed to
-  STDOUT by the top level code.
-  """
+    This function returns an output string which is to be printed to
+    STDOUT by the top level code.
+    """
 
-  if len(argv) == 1:
-    return 'Usage: vtmtc.py [FILE]'
+    if len(argv) == 1:
+        return 'Usage: vtmtc.py [FILE]'
 
-  return ''
+    return ''
 
 if __name__ == '__main__':
-  stdout_msg = _run(sys.argv)
-  if (stdout_msg): print(stdout_msg)
+    stdout_msg = _run(sys.argv)
+    if (stdout_msg): print(stdout_msg)
