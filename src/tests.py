@@ -20,31 +20,33 @@ class MyUnitTest(unittest.TestCase):
       Usage: vtmtc.py [FILE]
     """
 
+    script_name = 'vtmtc.py'
+
     # calling the script without an argument, shows help message
 
-    argv = tuple()
+    argv = (script_name, )
 
     stdout_msg = vtmtc._run(argv)
 
-    expected_stdout_msg = """Usage: vtmtc.py [FILE]\n"""
+    expected_stdout_msg = """Usage: vtmtc.py [FILE]"""
     self.assertEqual(expected_stdout_msg, stdout_msg)
 
     # calling the script with an argument, doesn't show help message
 
-    argv = ('hello')
+    argv = (script_name, 'hello')
 
     stdout_msg = vtmtc._run(argv)
 
-    unexpected_stdout_msg = """Usage: vtmtc.py [FILE]\n"""
+    unexpected_stdout_msg = """Usage: vtmtc.py [FILE]"""
     self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
     # calling the script with 2 arguments, doesn't show help message
 
-    argv = ('hello', 'world')
+    argv = (script_name, 'hello', 'world')
 
     stdout_msg = vtmtc._run(argv)
 
-    unexpected_stdout_msg = """Usage: vtmtc.py [FILE]\n"""
+    unexpected_stdout_msg = """Usage: vtmtc.py [FILE]"""
     self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
     self.fail('Finish the test!')

@@ -12,10 +12,11 @@ def _run(argv):
   STDOUT by the top level code.
   """
 
-  if len(argv) == 0:
-    return 'Usage: vtmtc.py [FILE]\n'
+  if len(argv) == 1:
+    return 'Usage: vtmtc.py [FILE]'
 
   return ''
 
 if __name__ == '__main__':
-  print(_run(sys.argv))
+  stdout_msg = _run(sys.argv)
+  if (stdout_msg): print(stdout_msg)
