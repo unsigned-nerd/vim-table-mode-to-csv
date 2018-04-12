@@ -2,6 +2,20 @@
 
 import sys
 
+def collapsemultilines(iterable_multilines_text):
+    res_str = """some text
+
+|---------------------------------------------------------------+---------------------------------------------------------------------------|
+| Lorem ipsum dolor sit amet                                    | Suspendisse quis ipsum  diam. Etiam tristique libero et imperdiet tempor. |
+|---------------------------------------------------------------+---------------------------------------------------------------------------|
+| Donec semper augue et metus consequat lobortis quis ac metus. | Quisque sodales rutrum nulla, a pretium dui cursus nec.                   |
+|---------------------------------------------------------------+---------------------------------------------------------------------------|
+
+some other text"""
+
+    for line in res_str.split('\n'):
+      yield line + '\n'
+
 def _run(argv):
     """
     When calling this script from a command line shell, the top level
