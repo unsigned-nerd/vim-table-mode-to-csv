@@ -93,7 +93,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_line_list(vimtable)
+        line_list = vtmtc.vimtable_to_row_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)
@@ -124,7 +124,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_line_list(vimtable)
+        line_list = vtmtc.vimtable_to_row_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)
@@ -154,7 +154,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_line_list(vimtable)
+        line_list = vtmtc.vimtable_to_row_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)

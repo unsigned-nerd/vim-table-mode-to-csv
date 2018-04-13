@@ -3,7 +3,7 @@
 import re
 import sys
 
-def vimtable_to_line_list(vimtable):
+def vimtable_to_row_list(vimtable):
 
     # common regexp patterns which are used in this function
     line_sep_pattern = re.compile("^[ ]*\|[\-\+]+\|[ ]*$")
