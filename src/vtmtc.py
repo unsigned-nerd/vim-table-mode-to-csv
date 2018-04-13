@@ -3,11 +3,22 @@
 import re
 import sys
 
-def vimtable_to_line_tuple(vimtable):
+def vimtable_to_line_list(vimtable):
 
-    yield ('Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam')
-    yield ('Donec et metus lobortis', 'Quisque nulla, a')
+    """
+    # regexp patterns
+    line_sep_pattern = re.compile("^[ ]*\|[\-\+]+\|[ ]*$")
 
+    line = None # each line of vimtable
+
+    # skip until we find a table
+    for line in vimtable:
+        if line_sep_pattern.match(line):
+            break
+    """
+
+    yield ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam']
+    yield ['Donec et metus lobortis', 'Quisque nulla, a']
 
 def _run(argv):
     """

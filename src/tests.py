@@ -49,7 +49,7 @@ class MyUnitTest(unittest.TestCase):
         unexpected_stdout_msg = """Usage: vtmtc.py [FILE]"""
         self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
-    def test_canconvertvimtableintotuple(self):
+    def test_canconvertvimtableintolist(self):
         """
         vim-table with multi-line rows looks like this:
 
@@ -63,10 +63,10 @@ class MyUnitTest(unittest.TestCase):
             |-------------------+-------------|
 
         We want to create a generator which takes the input above and
-        yields tuples that looks like this:
+        yields lists that looks like this:
 
-           #0 ('Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam')
-           #1 ('Donec et metus lobortis', 'Quisque nulla, a')
+           #0 ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam']
+           #1 ['Donec et metus lobortis', 'Quisque nulla, a']
         """
 
         vimtable_text = """some text
@@ -85,17 +85,17 @@ class MyUnitTest(unittest.TestCase):
         # simulate open BIF
         vimtable = (line for line in vimtable_text.split('\n'))
 
-        expected_result_0 = ('Lorem ipsum dolor sit amet',
-            'Suspendisse diam. Etiam')
-        expected_result_1 = ('Donec et metus lobortis',
-            'Quisque nulla, a')
+        expected_result_0 = ['Lorem ipsum dolor sit amet',
+            'Suspendisse diam. Etiam']
+        expected_result_1 = ['Donec et metus lobortis',
+            'Quisque nulla, a']
 
-        line_tuple = vtmtc.vimtable_to_line_tuple(vimtable)
+        line_list = vtmtc.vimtable_to_line_list(vimtable)
 
-        line_tuple_0 = next(line_tuple)
-        self.assertEqual(line_tuple_0, expected_result_0)
-        line_tuple_1 = next(line_tuple)
-        self.assertEqual(line_tuple_1, expected_result_1)
+        line_list_0 = next(line_list)
+        self.assertEqual(line_list_0, expected_result_0)
+        line_list_1 = next(line_list)
+        self.assertEqual(line_list_1, expected_result_1)
 
         self.fail('Finish the test!')
 
