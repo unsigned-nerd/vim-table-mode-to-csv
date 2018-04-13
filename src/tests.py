@@ -83,7 +83,6 @@ class MyUnitTest(unittest.TestCase):
 
 some other text"""
 
-
         # for loop can iterate through this variable the same way as
         # when it iterates the result of open()
         input_itr = (line for line in input_text.split('\n'))
