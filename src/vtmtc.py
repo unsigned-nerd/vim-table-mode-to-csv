@@ -5,21 +5,23 @@ import sys
 
 def vimtable_to_line_list(vimtable):
 
-    # common regexp patterns
+    # common regexp patterns which are used in this function
     line_sep_pattern = re.compile("^[ ]*\|[\-\+]+\|[ ]*$")
     empty_str_pattern = re.compile("^[ ]*$")
 
-    line = None # each line of vimtable
+    line = None # each line of vimtable we are walking through
 
-    # skip until we find a table
+    # walk through each line until we reach a table
     for line in vimtable:
         if line_sep_pattern.match(line):
+            # found the line that looks something like this, |----+----|
             break
 
-    # calculate number of columns
+    # calculate number of columns by counting the number of plus sign
+    # (+) on the 'line seperation' line we have found above
     no_of_cols = line.count('+') + 1
 
-    # walk through the table
+    # walk through the table, one iteration per row
     for line in vimtable:
         # each line inside vim table starts with |
         line_inside_vimtable_pattern = re.compile("^[ ]*\|.*$")
@@ -27,24 +29,28 @@ def vimtable_to_line_list(vimtable):
             # end of table
             break
 
-        a_row_list = ['' for i in range(no_of_cols)]
+        # let's build a row (list to yield)
+        row = ['' for i in range(no_of_cols)]
+
+        # for the first line of the row
         separated_lines = line.split('|')
         for col in range(no_of_cols):
-            a_row_list[col] += separated_lines[col+1].lstrip().rstrip()
-            print('a_row_list[' + str(col) + ']=' + a_row_list[col])
+            row[col] += separated_lines[col+1].lstrip().rstrip()
 
-        # walk through a row
+        # walk through the rest lines of this row
         for line in vimtable:
             if line_sep_pattern.match(line):
                 # end of row
                 break
             separated_lines = line.split('|')
             for col in range(no_of_cols):
-                if not empty_str_pattern.match(separated_lines[col+1]):
-                    a_row_list[col] += \
-                      ' ' + separated_lines[col+1].lstrip().rstrip()
-                print('a_row_list[' + str(col) + ']=' + a_row_list[col])
-        yield a_row_list
+                if empty_str_pattern.match(separated_lines[col+1]):
+                    continue # do nothing if it is an empty line
+
+                row[col] += ' ' + \
+                  separated_lines[col+1].lstrip().rstrip()
+
+        yield row
 
 def _run(argv):
     """

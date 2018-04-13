@@ -82,7 +82,8 @@ class MyUnitTest(unittest.TestCase):
 
             some other text"""
 
-        # simulate open BIF
+        # simulate open() BIF, this way, we don't have to create a real
+        # dummy file for testing
         vimtable = (line for line in vimtable_text.split('\n'))
 
         expected_result_0 = ['Lorem ipsum dolor sit amet',
