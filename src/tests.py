@@ -131,6 +131,37 @@ class MyUnitTest(unittest.TestCase):
         line_list_1 = next(line_list)
         self.assertEqual(line_list_1, expected_result_1)
 
+        # test 2
+
+        vimtable_text = """some text
+
+            |----------+----------|
+            |          |          |
+            |          |          |
+            |----------+----------|
+            | Donec    | Quisque  |
+            | et metus | nulla, a |
+            | lobortis |          |
+            |----------+----------|
+
+            some other text"""
+
+        # simulate open() BIF, this way, we don't have to create a real
+        # dummy file for testing
+        vimtable = (line for line in vimtable_text.split('\n'))
+
+        expected_result_0 = ['', '']
+        expected_result_1 = ['Donec et metus lobortis',
+            'Quisque nulla, a']
+
+        line_list = vtmtc.vimtable_to_line_list(vimtable)
+
+        line_list_0 = next(line_list)
+        self.assertEqual(line_list_0, expected_result_0)
+        line_list_1 = next(line_list)
+        self.assertEqual(line_list_1, expected_result_1)
+
+
         self.fail('Finish the test!')
 
     def test_canconvertvimtablemodetocsv(self):
