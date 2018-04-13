@@ -49,51 +49,54 @@ class MyUnitTest(unittest.TestCase):
         unexpected_stdout_msg = """Usage: vtmtc.py [FILE]"""
         self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
-    def test_canreadvimtableintolist(self):
+    def test_canconvertvimtableintotuple(self):
         """
-        Multi-lines row in vim-table-mode looks like this:
+        vim-table with multi-line rows looks like this:
 
-        |-------------------+-------------|
-        | Lorem ipsum dolor | Suspendisse |
-        | sit amet          | diam. Etiam |
-        |-------------------+-------------|
-        | Donec             | Quisque     |
-        | et metus          | nulla, a    |
-        | lobortis          |             |
-        |-------------------+-------------|
+            |-------------------+-------------|
+            | Lorem ipsum dolor | Suspendisse |
+            | sit amet          | diam. Etiam |
+            |-------------------+-------------|
+            | Donec             | Quisque     |
+            | et metus          | nulla, a    |
+            | lobortis          |             |
+            |-------------------+-------------|
 
-        We want to read it into a list like this:
+        We want to create a generator which takes the input above and
+        yields tuples that looks like this:
 
-           [['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
-            ['Donec et metus lobortis', 'Quisque nulla, a']]
+           #0 ('Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam')
+           #1 ('Donec et metus lobortis', 'Quisque nulla, a')
         """
 
-        # simulate file reading with linegen
+        vimtable_text = """some text
 
-        input_text = """some text
+            |-------------------+-------------|
+            | Lorem ipsum dolor | Suspendisse |
+            | sit amet          | diam. Etiam |
+            |-------------------+-------------|
+            | Donec             | Quisque     |
+            | et metus          | nulla, a    |
+            | lobortis          |             |
+            |-------------------+-------------|
 
-|-------------------+-------------|
-| Lorem ipsum dolor | Suspendisse |
-| sit amet          | diam. Etiam |
-|-------------------+-------------|
-| Donec             | Quisque     |
-| et metus          | nulla, a    |
-| lobortis          |             |
-|-------------------+-------------|
+            some other text"""
 
-some other text"""
+        # simulate open BIF
+        vimtable = (line for line in vimtable_text.split('\n'))
 
-        # for loop can iterate through this variable the same way as
-        # when it iterates the result of open()
-        input_itr = (line for line in input_text.split('\n'))
+        expected_result_0 = ('Lorem ipsum dolor sit amet',
+            'Suspendisse diam. Etiam')
+        expected_result_1 = ('Donec et metus lobortis',
+            'Quisque nulla, a')
 
-        expected_result = [
-            ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
-            ['Donec et metus lobortis', 'Quisque nulla, a']]
+        line_tuple = vtmtc.vimtable_to_line_tuple(vimtable)
 
-        result = vtmtc.vimtabletolist(input_itr)
+        line_tuple_0 = next(line_tuple)
+        self.assertEqual(line_tuple_0, expected_result_0)
+        line_tuple_1 = next(line_tuple)
+        self.assertEqual(line_tuple_1, expected_result_1)
 
-        self.assertEqual(result, expected_result)
         self.fail('Finish the test!')
 
     def test_canconvertvimtablemodetocsv(self):

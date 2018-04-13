@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
+import re
 import sys
 
-def vimtabletolist(vimtable_itr):
-    expected_result = [
-        ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
-        ['Donec et metus lobortis', 'Quisque nulla, a']]
+def vimtable_to_line_tuple(vimtable):
 
-    return expected_result
+    yield ('Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam')
+    yield ('Donec et metus lobortis', 'Quisque nulla, a')
+
 
 def _run(argv):
     """
