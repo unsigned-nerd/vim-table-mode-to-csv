@@ -47,8 +47,10 @@ def vimtable_to_line_list(vimtable):
                 if empty_str_pattern.match(separated_lines[col+1]):
                     continue # do nothing if it is an empty line
 
-                row[col] += ' ' + \
-                  separated_lines[col+1].lstrip().rstrip()
+                if not empty_str_pattern.match(row[col]):
+                    row[col] += ' '
+
+                row[col] += separated_lines[col+1].lstrip().rstrip()
 
         yield row
 

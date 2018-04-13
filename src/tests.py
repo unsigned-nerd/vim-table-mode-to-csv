@@ -69,6 +69,8 @@ class MyUnitTest(unittest.TestCase):
            #1 ['Donec et metus lobortis', 'Quisque nulla, a']
         """
 
+        # test 0
+
         vimtable_text = """some text
 
             |-------------------+-------------|
@@ -88,6 +90,37 @@ class MyUnitTest(unittest.TestCase):
 
         expected_result_0 = ['Lorem ipsum dolor sit amet',
             'Suspendisse diam. Etiam']
+        expected_result_1 = ['Donec et metus lobortis',
+            'Quisque nulla, a']
+
+        line_list = vtmtc.vimtable_to_line_list(vimtable)
+
+        line_list_0 = next(line_list)
+        self.assertEqual(line_list_0, expected_result_0)
+        line_list_1 = next(line_list)
+        self.assertEqual(line_list_1, expected_result_1)
+
+        # test 1
+
+        vimtable_text = """some text
+
+            |-------------------+-------------|
+            | Lorem ipsum dolor |             |
+            | sit amet          | diam. Etiam |
+            |-------------------+-------------|
+            | Donec             | Quisque     |
+            | et metus          | nulla, a    |
+            | lobortis          |             |
+            |-------------------+-------------|
+
+            some other text"""
+
+        # simulate open() BIF, this way, we don't have to create a real
+        # dummy file for testing
+        vimtable = (line for line in vimtable_text.split('\n'))
+
+        expected_result_0 = ['Lorem ipsum dolor sit amet',
+            'diam. Etiam']
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
