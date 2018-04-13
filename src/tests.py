@@ -49,71 +49,56 @@ class MyUnitTest(unittest.TestCase):
         unexpected_stdout_msg = """Usage: vtmtc.py [FILE]"""
         self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
-    def test_cancollapsemultilinesrow(self):
+    def test_canreadvimtableintolist(self):
         """
         Multi-lines row in vim-table-mode looks like this:
 
-        |-------------------------+----------------------------------|
-        | Lorem ipsum dolor       | Suspendisse quis ipsum           |
-        | sit amet                | diam. Etiam tristique            |
-        |                         | libero et imperdiet tempor.      |
-        |-------------------------+----------------------------------|
-        | Donec semper augue      | Quisque sodales rutrum           |
-        | et metus consequat      | nulla, a pretium dui cursus nec. |
-        | lobortis quis ac metus. |                                  |
-        |-------------------------+----------------------------------|
+        |-------------------+-------------|
+        | Lorem ipsum dolor | Suspendisse |
+        | sit amet          | diam. Etiam |
+        |-------------------+-------------|
+        | Donec             | Quisque     |
+        | et metus          | nulla, a    |
+        | lobortis          |             |
+        |-------------------+-------------|
 
-        We want to convert it to look like this (single-line row):
+        We want to read it into a list like this:
 
-        |---------------------------------------------------------------+--------------------------------------------------------------------------|
-        | Lorem ipsum dolor sit amet                                    | Suspendisse quis ipsum diam. Etiam tristique libero et imperdiet tempor. |
-        |---------------------------------------------------------------+--------------------------------------------------------------------------|
-        | Donec semper augue et metus consequat lobortis quis ac metus. | Quisque sodales rutrum nulla, a pretium dui cursus nec.                  |
-        |---------------------------------------------------------------+--------------------------------------------------------------------------|
+           [['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
+            ['Donec et metus lobortis', 'Quisque nulla, a']]
         """
 
         # simulate file reading with linegen
 
-        multilines_str = """some text
+        input_text = """some text
 
-|-------------------------+----------------------------------|
-| Lorem ipsum dolor       | Suspendisse quis ipsum           |
-| sit amet                | diam. Etiam tristique            |
-|                         | libero et imperdiet tempor.      |
-|-------------------------+----------------------------------|
-| Donec semper augue      | Quisque sodales rutrum           |
-| et metus consequat      | nulla, a pretium dui cursus nec. |
-| lobortis quis ac metus. |                                  |
-|-------------------------+----------------------------------|
+|-------------------+-------------|
+| Lorem ipsum dolor | Suspendisse |
+| sit amet          | diam. Etiam |
+|-------------------+-------------|
+| Donec             | Quisque     |
+| et metus          | nulla, a    |
+| lobortis          |             |
+|-------------------+-------------|
 
 some other text"""
 
-        def linegen(multilines):
-            for line in multilines.split('\n'):
-                yield line
 
         # for loop can iterate through this variable the same way as
         # when it iterates the result of open()
-        multilines_itr = linegen(multilines_str)
+        input_itr = (line for line in input_text.split('\n'))
 
-        expected_singleline_str = """some text
+        expected_result = [
+            ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
+            ['Donec et metus lobortis', 'Quisque nulla, a']]
 
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
-| Lorem ipsum dolor sit amet                                    | Suspendisse quis ipsum  diam. Etiam tristique libero et imperdiet tempor. |
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
-| Donec semper augue et metus consequat lobortis quis ac metus. | Quisque sodales rutrum nulla, a pretium dui cursus nec.                   |
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
+        result = vtmtc.vimtabletolist(input_itr)
 
-some other text"""
-
-        result = ''
-        for line in vtmtc.collapsemultilines(multilines_itr):
-            result += line
-
-        self.assertEqual(result, expected_singleline_str + '\n')
+        self.assertEqual(result, expected_result)
+        self.fail('Finish the test!')
 
     def test_canconvertvimtablemodetocsv(self):
-        self.fail('Finish the test!')
+        pass
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,19 +2,12 @@
 
 import sys
 
-def collapsemultilines(iterable_multilines_text):
-    res_str = """some text
+def vimtabletolist(vimtable_itr):
+    expected_result = [
+        ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam'],
+        ['Donec et metus lobortis', 'Quisque nulla, a']]
 
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
-| Lorem ipsum dolor sit amet                                    | Suspendisse quis ipsum  diam. Etiam tristique libero et imperdiet tempor. |
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
-| Donec semper augue et metus consequat lobortis quis ac metus. | Quisque sodales rutrum nulla, a pretium dui cursus nec.                   |
-|---------------------------------------------------------------+---------------------------------------------------------------------------|
-
-some other text"""
-
-    for line in res_str.split('\n'):
-      yield line + '\n'
+    return expected_result
 
 def _run(argv):
     """
