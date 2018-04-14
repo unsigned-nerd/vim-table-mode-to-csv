@@ -33,24 +33,24 @@ def vimtable_to_row_list(vimtable):
         row = ['' for i in range(no_of_cols)]
 
         # for the first line of the row
-        separated_lines = line.split('|')
+        splitted_line = line.split('|')
         for col in range(no_of_cols):
-            row[col] += separated_lines[col+1].lstrip().rstrip()
+            row[col] += splitted_line[col+1].lstrip().rstrip()
 
         # walk through the rest lines of this row
         for line in vimtable:
             if line_sep_pattern.match(line):
                 # end of row
                 break
-            separated_lines = line.split('|')
+            splitted_line = line.split('|')
             for col in range(no_of_cols):
-                if empty_str_pattern.match(separated_lines[col+1]):
+                if empty_str_pattern.match(splitted_line[col+1]):
                     continue # do nothing if it is an empty line
 
                 if not empty_str_pattern.match(row[col]):
                     row[col] += ' '
 
-                row[col] += separated_lines[col+1].lstrip().rstrip()
+                row[col] += splitted_line[col+1].lstrip().rstrip()
 
         yield row
 
