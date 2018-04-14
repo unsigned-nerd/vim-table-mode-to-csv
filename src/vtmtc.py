@@ -65,11 +65,11 @@ def vimtable_row_list_to_csv_line(row):
     return line
 
 def vimtablefiletocsvfile(vimtable_file, csv_file):
-    csv_text = 'Lorem ipsum dolor sit amet,Suspendisse diam. ' +  \
-        'Etiam\nDonec et metus lobortis,"Quisque nulla, a"'
-
+    vimtable = open(vimtable_file)
     with open(csv_file, 'w') as _csv_file:
-        _csv_file.write(csv_text)
+        for row in vimtable_to_row_list(vimtable):
+            _csv_file.write(vimtable_row_list_to_csv_line(row) + '\n')
+    vimtable.close()
 
 def _run(argv):
     """

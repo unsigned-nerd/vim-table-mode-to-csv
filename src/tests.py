@@ -197,10 +197,12 @@ class MyUnitTest(unittest.TestCase):
 
         csvfile_line_0 = next(vimtable_csvfile).rstrip()
         self.assertEqual(csvfile_line_0, 'Lorem ipsum dolor sit amet,' +
-            'Suspendisse diam. Etiam')
+            'Suspendisse diam. Etiam,')
         csvfile_line_1 = next(vimtable_csvfile).rstrip()
         self.assertEqual(csvfile_line_1, 'Donec et metus lobortis,' +
-            '"Quisque nulla, a"')
+            '"Quisque nulla, a",')
+
+        vimtable_csvfile.close()
 
         import os
         os.remove('test/tmp/vimtable.in')
