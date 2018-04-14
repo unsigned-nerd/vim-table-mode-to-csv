@@ -161,15 +161,27 @@ class MyUnitTest(unittest.TestCase):
         line_list_1 = next(line_list)
         self.assertEqual(line_list_1, expected_result_1)
 
-    def test_canconvertvimtablemoderowlisttocsvline(self):
-        vimtable_row_list = ['Donec et metus lobortis',
-            'Quisque nulla', 'Donec pretium felis ac',
-            ' gravida molestie']
+    def test_canconvertvimtablemoderowlisttocsv(self):
+        vimtablemode_row_list = [
+            [
+                'Lorem ipsum dolor sit amet',
+                'Suspendisse diam. Etiam'
+            ],
+            [
+                'Donec et metus lobortis',
+                'Quisque nulla, a'
+            ]
+        ]
 
-        csv = vtmtc.vimtable_row_list_to_csv_line(vimtable_row_list)
+        csv = vtmtc.vimtable_row_list_to_csv(vimtablemode_row_list)
 
-        self.assertEqual(csv, "Donec et metus lobortis, " +
-            "Quisque nulla, Donec pretium felis ac, gravida molestie")
+        csv_0 = next(csv)
+        self.assertEqual(csv_0, 'Lorem ipsum dolor sit amet, ' +
+            'Suspendisse diam. Etiam')
+
+        csv_1 = next(csv)
+        self.assertEqual(csv_1, 'Donec et metus lobortis, ' +
+            '"Quisque nulla, a"')
 
         self.fail('Finish the test!')
 

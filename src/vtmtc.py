@@ -54,9 +54,9 @@ def vimtable_to_row_list(vimtable):
 
         yield row
 
-def vimtable_row_list_to_csv_line(row_list):
-    return "Donec et metus lobortis, " + \
-        "Quisque nulla, Donec pretium felis ac, gravida molestie"
+def vimtable_row_list_to_csv(row_list):
+    yield 'Lorem ipsum dolor sit amet, Suspendisse diam. Etiam'
+    yield 'Donec et metus lobortis, "Quisque nulla, a"'
 
 def _run(argv):
     """
