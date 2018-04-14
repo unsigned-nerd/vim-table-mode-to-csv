@@ -64,6 +64,13 @@ def vimtable_row_list_to_csv_line(row):
             line += col + ","
     return line
 
+def vimtablefiletocsvfile(vimtable_file, csv_file):
+    csv_text = 'Lorem ipsum dolor sit amet,Suspendisse diam. ' +  \
+        'Etiam\nDonec et metus lobortis,"Quisque nulla, a"'
+
+    with open(csv_file, 'w') as _csv_file:
+        _csv_file.write(csv_text)
+
 def _run(argv):
     """
     When calling this script from a command line shell, the top level

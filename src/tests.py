@@ -173,6 +173,39 @@ class MyUnitTest(unittest.TestCase):
         self.assertEqual(csv_line, 'Lorem ipsum dolor sit amet,' +
             '"Suspendisse diam, etiam",')
 
+    def test_canconvertvimtablefiletocsvfile(self):
+        vimtable_text = """some text
+
+            |-------------------+-------------|
+            | Lorem ipsum dolor | Suspendisse |
+            | sit amet          | diam. Etiam |
+            |-------------------+-------------|
+            | Donec             | Quisque     |
+            | et metus          | nulla, a    |
+            | lobortis          |             |
+            |-------------------+-------------|
+
+            some other text"""
+
+        with open('test/tmp/vimtable.in', 'w') as vimtable_file:
+            vimtable_file.write(vimtable_text)
+
+        vtmtc.vimtablefiletocsvfile('test/tmp/vimtable.in',
+            'test/tmp/vimtable.csv')
+
+        vimtable_csvfile = open('test/tmp/vimtable.csv')
+
+        csvfile_line_0 = next(vimtable_csvfile).rstrip()
+        self.assertEqual(csvfile_line_0, 'Lorem ipsum dolor sit amet,' +
+            'Suspendisse diam. Etiam')
+        csvfile_line_1 = next(vimtable_csvfile).rstrip()
+        self.assertEqual(csvfile_line_1, 'Donec et metus lobortis,' +
+            '"Quisque nulla, a"')
+
+        import os
+        os.remove('test/tmp/vimtable.in')
+        os.remove('test/tmp/vimtable.csv')
+
         self.fail('Finish the test!')
 
 if __name__ == '__main__':
