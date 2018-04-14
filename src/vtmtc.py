@@ -54,9 +54,15 @@ def vimtable_to_row_list(vimtable):
 
         yield row
 
-def vimtable_row_list_to_csv(row_list):
-    yield 'Lorem ipsum dolor sit amet, Suspendisse diam. Etiam'
-    yield 'Donec et metus lobortis, "Quisque nulla, a"'
+def vimtable_row_list_to_csv_line(row):
+    line = ''
+    for col in row:
+        col = col.replace('"', '""')
+        if ',' in col:
+            line += '"' + col + '",'
+        else:
+            line += col + ","
+    return line
 
 def _run(argv):
     """
