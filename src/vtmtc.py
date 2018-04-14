@@ -81,10 +81,10 @@ def _run(argv):
     STDOUT by the top level code.
     """
 
-    if len(argv) == 1:
-        return 'Usage: vtmtc.py [FILE]'
+    if len(argv) < 3:
+        return 'Usage: vtmtc.py [IN_FILE] [OUT_FILE]'
 
-    return ''
+    vimtablefiletocsvfile(argv[1], argv[2])
 
 if __name__ == '__main__':
     stdout_msg = _run(sys.argv)
