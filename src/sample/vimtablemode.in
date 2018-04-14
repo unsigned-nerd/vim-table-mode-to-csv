@@ -1,0 +1,11 @@
+some text:
+    |-------------------+-------------|
+    | Lorem ipsum dolor | Suspendisse |
+    | sit amet          | diam. Etiam |
+    |-------------------+-------------|
+    | Donec             | Quisque     |
+    | et metus          | nulla, a    |
+    | lobortis          |             |
+    |-------------------+-------------|
+
+and some other text
