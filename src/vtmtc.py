@@ -4,6 +4,7 @@ import re
 import sys
 
 def vimtable_to_col_list(vimtable):
+    # see sample at tests.py:test_canconvertvimtableintocollist
 
     # common regexp patterns which are used in this function
     line_sep_pattern = re.compile("^[ ]*\|[\-\+]+\|[ ]*$")
@@ -14,14 +15,15 @@ def vimtable_to_col_list(vimtable):
     # walk through each line until we reach a table
     for line in vimtable:
         if line_sep_pattern.match(line):
-            # found the line that looks something like this, |----+----|
+            # found a line that looks something like this, |----+----|
             break
 
-    # calculate number of columns by counting the number of plus sign
-    # (+) on the 'line seperation' line we have found above
+    # calculate the number of columns by counting the number of plus
+    # sign (+) on the 'line seperation' line we have found above
     no_of_cols = line.count('+') + 1
 
-    # walk through the table, one iteration per row
+    # walk through the table, one iteration per row (a row consits of
+    # multiple lines)
     for line in vimtable:
         # each line inside vim table starts with |
         line_inside_vimtable_pattern = re.compile("^[ ]*\|.*$")
@@ -29,13 +31,16 @@ def vimtable_to_col_list(vimtable):
             # end of table
             break
 
-        # let's build a row (list to yield)
-        row = ['' for i in range(no_of_cols)]
+        # let's build a column list (aka. col list) with default value
+        col_list = ['' for i in range(no_of_cols)]
 
         # for the first line of the row
+        # the code below is tricky, should be improved when possible
         splitted_line = line.split('|')
         for col in range(no_of_cols):
-            row[col] += splitted_line[col+1].lstrip().rstrip()
+            if empty_str_pattern.match(splitted_line[col+1]):
+                continue
+            col_list[col] += splitted_line[col+1].lstrip().rstrip()
 
         # walk through the rest lines of this row
         for line in vimtable:
@@ -47,21 +52,32 @@ def vimtable_to_col_list(vimtable):
                 if empty_str_pattern.match(splitted_line[col+1]):
                     continue # do nothing if it is an empty line
 
-                if not empty_str_pattern.match(row[col]):
-                    row[col] += ' '
+                # add a space in place of new line character inside a
+                # cell
+                if not empty_str_pattern.match(col_list[col]):
+                    col_list[col] += ' '
 
-                row[col] += splitted_line[col+1].lstrip().rstrip()
+                col_list[col] += splitted_line[col+1].lstrip().rstrip()
 
-        yield row
+        yield col_list
 
-def vimtable_col_list_to_csv_line(row):
+def vimtable_col_list_to_csv_line(col_list):
+    """
+    see sample from tests.py:test_canconvertvimtablemodecollisttocsvline
+    """
+
     line = ''
-    for col in row:
+    for col in col_list:
+
+        # csv's style
         col = col.replace('"', '""')
+
+        # another csv's style
         if ',' in col:
             line += '"' + col + '",'
         else:
             line += col + ","
+
     return line
 
 def vimtablefiletocsvfile(vimtable_file, csv_file):

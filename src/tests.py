@@ -52,6 +52,8 @@ class MyUnitTest(unittest.TestCase):
     def test_canconvertvimtablefiletocsvfile(self):
         """
         test by calling the (nearly) top-level script (via vtmtc._run)
+        as we know that vtmtc._run calls vtmtc.vimtablefiletocsvfile, so
+        we don't need a dedicated test case for it
         """
 
         # sys.argv[0] is the script name
