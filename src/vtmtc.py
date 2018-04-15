@@ -83,8 +83,9 @@ def vimtable_col_list_to_csv_line(col_list):
 def vimtablefiletocsvfile(vimtable_file, csv_file):
     vimtable = open(vimtable_file)
     with open(csv_file, 'w') as _csv_file:
-        for row in vimtable_to_col_list(vimtable):
-            _csv_file.write(vimtable_col_list_to_csv_line(row) + '\n')
+        for col_list in vimtable_to_col_list(vimtable):
+            _csv_file.write(vimtable_col_list_to_csv_line(col_list) + \
+                '\n')
     vimtable.close()
 
 def _run(argv):
