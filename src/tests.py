@@ -50,6 +50,11 @@ class MyUnitTest(unittest.TestCase):
         self.assertNotEqual(unexpected_stdout_msg, stdout_msg)
 
     def test_callvtmtcforreal(self):
+        """
+        test by calling the (nearly) top-level script (via vtmtc._run)
+        """
+
+        # sys.argv[0] is the script name
         script_name = 'vtmtc.py'
 
         vimtable_text = """some text
@@ -68,21 +73,20 @@ class MyUnitTest(unittest.TestCase):
         with open('test/tmp/vimtable.in', 'w') as vimtable_file:
             vimtable_file.write(vimtable_text)
 
-        argv = (script_name, 'test/tmp/vimtable.in', 'test/tmp/vimtable.csv')
+        argv = (script_name, 'test/tmp/vimtable.in',
+            'test/tmp/vimtable.csv')
 
         vtmtc._run(argv)
 
-        vimtable_csvfile = open('test/tmp/vimtable.csv')
+        with open('test/tmp/vimtable.csv') as csv_file:
+            csv_file_line_0 = next(csv_file)
+            self.assertEqual(csv_file_line_0, 'Lorem ipsum dolor sit amet,' +
+                'Suspendisse diam. Etiam,\n')
+            csv_file_line_1 = next(csv_file).rstrip()
+            self.assertEqual(csv_file_line_1, 'Donec et metus lobortis,' +
+                '"Quisque nulla, a",')
 
-        csvfile_line_0 = next(vimtable_csvfile).rstrip()
-        self.assertEqual(csvfile_line_0, 'Lorem ipsum dolor sit amet,' +
-            'Suspendisse diam. Etiam,')
-        csvfile_line_1 = next(vimtable_csvfile).rstrip()
-        self.assertEqual(csvfile_line_1, 'Donec et metus lobortis,' +
-            '"Quisque nulla, a",')
-
-        vimtable_csvfile.close()
-
+        # clean up files generated during this test
         import os
         os.remove('test/tmp/vimtable.in')
         os.remove('test/tmp/vimtable.csv')
