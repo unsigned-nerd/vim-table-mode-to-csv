@@ -9,16 +9,17 @@ class MyUnitTest(unittest.TestCase):
 
     def test_helpmsg(self):
         """
-        If user calls our script without any argument, shows help
-        message.  Like this:
+        If user calls our script without any argument or incorrect
+        number of expected arguments, shows a help message.  Like this:
 
           $ vtmtc.py
           Usage: vtmtc.py [IN_FILE] [OUT_FILE]
         """
 
+        # sys.argv[0] is the script name
         script_name = 'vtmtc.py'
 
-        # calling the script without an argument, shows help message
+        # calling the script without an argument, show help message
 
         argv = (script_name, )
 
@@ -33,11 +34,11 @@ class MyUnitTest(unittest.TestCase):
 
         stdout_msg = vtmtc._run(argv)
 
-        unexpected_stdout_msg = \
+        expected_stdout_msg = \
             """Usage: vtmtc.py [IN_FILE] [OUT_FILE]"""
-        self.assertEqual(unexpected_stdout_msg, stdout_msg)
+        self.assertEqual(expected_stdout_msg, stdout_msg)
 
-        # calling the script with 2 arguments, doesn't show help message
+        # calling the script with 2 arguments, do not show help message
 
         argv = (script_name, 'hello', 'world')
 
