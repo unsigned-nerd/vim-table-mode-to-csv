@@ -54,7 +54,7 @@ def vimtable_to_col_list(vimtable):
 
         yield row
 
-def vimtable_row_list_to_csv_line(row):
+def vimtable_col_list_to_csv_line(row):
     line = ''
     for col in row:
         col = col.replace('"', '""')
@@ -68,7 +68,7 @@ def vimtablefiletocsvfile(vimtable_file, csv_file):
     vimtable = open(vimtable_file)
     with open(csv_file, 'w') as _csv_file:
         for row in vimtable_to_col_list(vimtable):
-            _csv_file.write(vimtable_row_list_to_csv_line(row) + '\n')
+            _csv_file.write(vimtable_col_list_to_csv_line(row) + '\n')
     vimtable.close()
 
 def _run(argv):
