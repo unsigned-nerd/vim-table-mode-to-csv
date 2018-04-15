@@ -7,12 +7,6 @@ from unittest.mock import MagicMock
 
 class MyUnitTest(unittest.TestCase):
 
-    def setUp(self):
-        pass
-  
-    def tearDown(self):
-        pass
-
     def test_helpmsg(self):
         """
         If user calls our script without any argument, shows help
