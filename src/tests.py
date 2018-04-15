@@ -91,7 +91,7 @@ class MyUnitTest(unittest.TestCase):
         os.remove('test/tmp/vimtable.in')
         os.remove('test/tmp/vimtable.csv')
 
-    def test_canconvertvimtableintolist(self):
+    def test_canconvertvimtableintocollist(self):
         """
         vim-table with multi-line rows looks like this:
 
@@ -104,11 +104,17 @@ class MyUnitTest(unittest.TestCase):
             | lobortis          |             |
             |-------------------+-------------|
 
-        We want to create a generator which takes the input above and
-        yields lists that looks like this:
+        We want to create a generator which takes the input that looks
+        like the table above and yields list of columns that looks like
+        this per each iteration:
 
-           #0 ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam']
-           #1 ['Donec et metus lobortis', 'Quisque nulla, a']
+            the first call to next gives:
+
+              ['Lorem ipsum dolor sit amet', 'Suspendisse diam. Etiam']
+
+            the second call to next gives:
+
+              ['Donec et metus lobortis', 'Quisque nulla, a']
         """
 
         # test 0
@@ -135,7 +141,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_row_list(vimtable)
+        line_list = vtmtc.vimtable_to_col_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)
@@ -166,7 +172,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_row_list(vimtable)
+        line_list = vtmtc.vimtable_to_col_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)
@@ -196,7 +202,7 @@ class MyUnitTest(unittest.TestCase):
         expected_result_1 = ['Donec et metus lobortis',
             'Quisque nulla, a']
 
-        line_list = vtmtc.vimtable_to_row_list(vimtable)
+        line_list = vtmtc.vimtable_to_col_list(vimtable)
 
         line_list_0 = next(line_list)
         self.assertEqual(line_list_0, expected_result_0)

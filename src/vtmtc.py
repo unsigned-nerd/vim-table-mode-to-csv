@@ -3,7 +3,7 @@
 import re
 import sys
 
-def vimtable_to_row_list(vimtable):
+def vimtable_to_col_list(vimtable):
 
     # common regexp patterns which are used in this function
     line_sep_pattern = re.compile("^[ ]*\|[\-\+]+\|[ ]*$")
@@ -67,7 +67,7 @@ def vimtable_row_list_to_csv_line(row):
 def vimtablefiletocsvfile(vimtable_file, csv_file):
     vimtable = open(vimtable_file)
     with open(csv_file, 'w') as _csv_file:
-        for row in vimtable_to_row_list(vimtable):
+        for row in vimtable_to_col_list(vimtable):
             _csv_file.write(vimtable_row_list_to_csv_line(row) + '\n')
     vimtable.close()
 
