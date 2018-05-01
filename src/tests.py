@@ -42,8 +42,10 @@ class MyUnitTest(unittest.TestCase):
 
         argv = (script_name, 'hello', 'world')
 
+        original_vimtablefiletocsvfile = vtmtc.vimtablefiletocsvfile
         vtmtc.vimtablefiletocsvfile = MagicMock(return_value='')
         stdout_msg = vtmtc._run(argv)
+        vtmtc.vimtablefiletocsvfile = original_vimtablefiletocsvfile
 
         unexpected_stdout_msg = \
             """Usage: vtmtc.py [IN_FILE] [OUT_FILE]"""
